@@ -3,8 +3,8 @@
 #include <stdlib.h> // Uso desse blibioteca para alocação
 #define max_lenght 255
 
+char* input_respons() {
 
-char* pergunta_name() {
     char* response = (char*)malloc(sizeof(char) * max_lenght + 1); 
     /*Nesse comando acima eu estou, declarando um variavel char com um nome response, o (char*) indique que eu preciso que o malloc retorne um ponteiro char*, poís o padrão e que
     retorne um void, eu abro uma função chamado malloc e dou um limite usado sizeof(), uso o char como primeiro valor, o valor de um char e 1byte, coloco que o limite de tamanho é
@@ -15,8 +15,7 @@ char* pergunta_name() {
         exit(1); // o exit(1) faz com que o programa feche na mesma hora.
     };
 
-    printf("Digite o seu nome: ");
-    fgets(response,max_lenght + 1, stdin); 
+     fgets(response,max_lenght + 1, stdin); 
     /*fgets é um comando que pega dados, como o scanf, mais a diferença do fgets é que ele lê os dados colocados nele, no comando acima coloco que o valor digitado deve ser armazenado
     no ponteiro char chamando response, no segundo parametro coloco o máximo de caracteres que devem ser lido, o max_lenght e uma constante com o valor de 255, a conta será 255 + 1
     lembrando que o máximo de caracter de um char e´256 bytes, o stdin é colocado para falar que a entrada é uma entrada padrao de teclado ou arquivo*/
@@ -29,7 +28,17 @@ char* pergunta_name() {
 
     int length_res = strlen(response);
     printf("Lenght: %d \n",length_res);
+
     return response;
+
+};
+
+
+char* pergunta_name() {
+   
+    printf("Digite o seu nome: ");
+    char* input_name = input_respons();
+    return input_name;
 };
 
 int main() {
@@ -46,7 +55,7 @@ int main() {
         
     };
 
-      printf("Nome: %s\n", t);
+      printf("Nome Cadastrado: %s\n", t);
       free(t); // Esse comando libera a mémoria alocada.
 
     return 0;
