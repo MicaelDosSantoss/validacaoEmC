@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h> // Biblioteca de strings
 #include <errno.h>
+#include <ctype.h>
 
 #define max_lenght 255
 
@@ -28,18 +29,34 @@ char* input_respons() {
     }
     /*size_t - verifica o valor em bytes, strlen() server para ver o comprimento em bytes*/
 
-    int length_res = strlen(response);
-    printf("Lenght: %d \n",length_res);
-
     return response;
-
 };
 
+int validacao_nome(const char* val) {
+    
+    for(int i = 0; val[i] != '\0'; i++) {
+
+        if(isdigit(val[i])) {
+            printf("Nome Invalido!, numero %c foi digitado.\nTente novamente! ",val[i]);
+            exit(1);     
+        }
+    }
+    return 0;
+};
+
+int year_validator(int year) {
+
+    if(year < 1000 || year > 9999) {
+        printf("Data Invalida, tentar novamente!");
+        exit(1);
+    };
+};
 
 char* pergunta_name() {
    
     printf("Digite o seu nome: ");
     char* input_name = input_respons();
+    validacao_nome(input_name);
     return input_name;
 };
 
@@ -52,29 +69,20 @@ struct list {
 int main() {
 
     struct list cadastro;
-    char* t = pergunta_name();
+    char* nome_save = pergunta_name();
   
-    
-    for(int i = 0; t[i] != '\0'; i++){
+    strncpy(cadastro.nome, nome_save ,sizeof(cadastro.nome));
+    printf("Nome Cadastrado: %s\n", nome_save);
 
-        if(t[i] == '0' || t[i] == '1'|| t[i] == '2'|| t[i] == '3' || t[i] == '4'|| t[i] == '5'|| t[i] == '6'|| t[i] == '7'|| t[i] == '8'|| t[i] == '9') {
-            printf("Nome Invalido!, numero %c foi digitado.\n",t[i]);
-            exit(1);     
-        };
-        
-    };
-      strncpy(cadastro.nome, t ,sizeof(cadastro.nome));
-      printf("Nome Cadastrado: %s\n", t);
-      free(t); // Esse comando libera a mémoria alocada.
+    free(nome_save); // Esse comando libera a mémoria alocada.
 
-    
-    // char n[100];
-    // printf("Digite o seu nome:");
-    // scanf("%s", n);
+    printf("\nDigite o ano do seu nascimento: ");
+      
+    int dig_year;
 
-   
-    // printf("\nNome: %s \n",cadastro.nome);
+    scanf("%d",&dig_year);
 
+    year_validator(dig_year);
 
     return 0;
 }
