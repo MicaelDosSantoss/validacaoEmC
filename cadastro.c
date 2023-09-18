@@ -3,6 +3,7 @@
 #include <string.h> // Biblioteca de strings
 #include <errno.h>
 #include <ctype.h>
+#include <time.h>
 
 #define max_lenght 255
 
@@ -32,7 +33,7 @@ char* input_respons() {
     return response;
 };
 
-int validacao_nome(const char* val) {
+int validacao(const char* val) {
     
     for(int i = 0; val[i] != '\0'; i++) {
 
@@ -50,19 +51,45 @@ int year_validator(int year) {
         printf("Data Invalida, tentar novamente!");
         exit(1);
     };
+     time_t t;
+        struct tm *info;
+        time(&t);
+
+        info = localtime(&t);
+
+        int year_atual = info->tm_year + 1900;
+
+        int idadeCont = year_atual - year;
+
+        return idadeCont;
+
+       
 };
 
 char* pergunta_name() {
    
     printf("Digite o seu nome: ");
     char* input_name = input_respons();
-    validacao_nome(input_name);
+    validacao(input_name);
     return input_name;
 };
 
+int phone_validator(int tel) {
+    char tel_str[50];
+    sprintf(tel_str,"%d",tel);
+
+    for(int i = 0; tel_str[i] != '\0'; i++) {
+
+        if(!isdigit(tel_str[i])) {
+            printf("Telefone Invalido!, caracter %c foi digitado.\nTente novamente! ",tel_str[i]);
+            exit(1);     
+        }
+    }
+};      
+
 struct list {
-        char nome[100], bairro[20], endereco[70], tel[13];
-        int ano_nascimento, status, dependente,sex,num_casa;      
+        char nome[100], email[50], endereco[70];
+        int idade, status, dependente,sex,num_casa, tel;      
         float altura;  
     };
 
@@ -82,7 +109,18 @@ int main() {
 
     scanf("%d",&dig_year);
 
-    year_validator(dig_year);
+    int idadeCont = year_validator(dig_year);
+    cadastro.idade = idadeCont;
+    printf("Idade Cadastrada! %d",cadastro.idade);
 
+    printf("digite o seu telefone: ");
+    int phone;
+    scanf("%d",&phone);
+    phone_validator(phone);
+    cadastro.tel = phone;
+
+    printf("Número Cadastrado! %d",cadastro.tel);
+
+    
     return 0;
 }
