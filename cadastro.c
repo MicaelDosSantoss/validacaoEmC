@@ -66,6 +66,38 @@ int year_validator(int year) {
        
 };
 
+
+int validador_email(const char* email) {
+    int count = 0, i;
+
+    for(i = 0; email[i] != '\0'; i++) {
+
+        printf("%c \n",email[i]);
+
+       for (i = 0; email[i] != '\0'; i++) {
+        if (email[i] == '@') {
+            count++;
+        }
+    }  
+
+        if(count != 1) {
+            printf("E-mail invalido!");
+            exit(1);
+     };
+        
+    };
+    return 0;
+};
+
+char* pergunta_email() {
+    printf("Digite o seu E-mail: ");
+    char* input_email = input_respons();
+    validador_email(input_email);
+    return input_email;
+
+};
+
+
 char* pergunta_name() {
    
     printf("Digite o seu nome: ");
@@ -74,17 +106,18 @@ char* pergunta_name() {
     return input_name;
 };
 
-int phone_validator(int tel) {
+int int_validator(int tel) {
     char tel_str[50];
     sprintf(tel_str,"%d",tel);
 
     for(int i = 0; tel_str[i] != '\0'; i++) {
 
         if(!isdigit(tel_str[i])) {
-            printf("Telefone Invalido!, caracter %c foi digitado.\nTente novamente! ",tel_str[i]);
+            printf("Digito Invalido!, caracter %c foi digitado.\nTente novamente! ",tel_str[i]);
             exit(1);     
         }
     }
+    return 0;
 };      
 
 struct list {
@@ -111,16 +144,23 @@ int main() {
 
     int idadeCont = year_validator(dig_year);
     cadastro.idade = idadeCont;
-    printf("Idade Cadastrada! %d",cadastro.idade);
+    printf("Idade Cadastrada! %d \n",cadastro.idade);
 
     printf("digite o seu telefone: ");
     int phone;
     scanf("%d",&phone);
-    phone_validator(phone);
+    int_validator(phone);
     cadastro.tel = phone;
 
-    printf("Número Cadastrado! %d",cadastro.tel);
+    printf("Número Cadastrado! %d \n",cadastro.tel);
 
-    
+    while (getchar() != '\n');
+
+    char* email_save = pergunta_email();
+    strncpy(cadastro.email,email_save,sizeof(cadastro.email));
+    printf("Email Cadastrado! %s",cadastro.email);
+
+    free(email_save);
+
     return 0;
 }
