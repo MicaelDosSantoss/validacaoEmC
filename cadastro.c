@@ -34,7 +34,7 @@ char* input_respons() {
 };
 
 int validacao(const char* val) {
-    
+
     for(int i = 0; val[i] != '\0'; i++) {
 
         if(isdigit(val[i])) {
